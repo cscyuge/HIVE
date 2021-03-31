@@ -3,7 +3,7 @@ const screenWidth = window.innerWidth
 const screenHeight = window.innerHeight
 
 const MAX_X = 25
-const MAX_Y = 40
+const MAX_Y = 45
 const MIN_X = -10
 const MIN_Y = -10
 
@@ -12,15 +12,9 @@ const MIN_Y = -10
  * 游戏背景类
  */
 export default class BackGround {
-  constructor(ctx) {
-    this.touchoverHandler = this.touchOverHandler.bind(this)
-    canvas.addEventListener('touchmove', this.touchoverHandler)
-    this.touchendHandler = this.touchEndHandler.bind(this)
-    canvas.addEventListener('touchend', this.touchendHandler)
-    
+  constructor() {
     this.px = -1
     this.py = -1
-    this.render(ctx)
   }
 
   draw(ctx,px,py){
@@ -57,36 +51,6 @@ export default class BackGround {
       }
     }
 
-  }
-
-  touchOverHandler(e) {
-    e.preventDefault()
-
-    const x = e.touches[0].clientX
-    const y = e.touches[0].clientY
-    if (this.px == -1){
-      this.px = x
-    }
-    if (this.py == -1){
-      this.py = y
-    }
-    GameGlobal.dx += x-this.px
-    GameGlobal.dy += y-this.py
-    if (GameGlobal.dx<-50) GameGlobal.dx=-50
-    if (GameGlobal.dy<-50) GameGlobal.dy=-50 
-    if (GameGlobal.dx>50) GameGlobal.dx=50
-    if (GameGlobal.dy>50) GameGlobal.dy=50 
-    
-
-    this.px = x
-    this.py = y
-    console.log(GameGlobal.dx, GameGlobal.dy)
-  }
-
-  touchEndHandler(e){
-    e.preventDefault()
-    this.px = -1
-    this.py = -1
   }
     
 }

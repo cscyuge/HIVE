@@ -4,6 +4,8 @@ import BallBar from './runtime/ballbar'
 const ctx = canvas.getContext('2d')
 const databus = new DataBus()
 
+GameGlobal.bg = new BackGround()
+GameGlobal.ballbar = new BallBar()
 
 /**
  * 游戏主函数
@@ -11,17 +13,22 @@ const databus = new DataBus()
 export default class Main {
   constructor() {
     this.aniId = 0
+    var touchmoveHandler = require('./handler/touchMoveHandler')
+    this.touchmoveHandler = touchmoveHandler.bind(this)
+    canvas.addEventListener('touchmove', this.touchmoveHandler)
+    
+    var touchendHandler = require('./handler/touchEndHandler')
+    this.touchendHandler = touchendHandler.bind(this)
+    canvas.addEventListener('touchend', this.touchendHandler)
+
+    var touchstartHandler = require('./handler/touchStartHandler')
+    this.touchstartHandler = touchstartHandler.bind(this)
+    canvas.addEventListener('touchstart', this.touchstartHandler)
     this.start()
   }
 
   start() {
     databus.reset()
-    canvas.removeEventListener(
-      'touchstart',
-      this.touchHandler
-    )
-    this.bg = new BackGround(ctx)
-    this.ballbar = new BallBar(ctx)
       
     this.bindLoop = this.loop.bind(this)
     
@@ -37,8 +44,8 @@ export default class Main {
   render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-    this.bg.render(ctx)
-    this.ballbar.render(ctx)
+    GameGlobal.bg.render(ctx)
+    GameGlobal.ballbar.render(ctx)
   }
 
   loop() {
