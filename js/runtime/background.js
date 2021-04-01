@@ -1,9 +1,7 @@
 
-const screenWidth = window.innerWidth
-const screenHeight = window.innerHeight
 
 const MAX_X = 25
-const MAX_Y = 45
+const MAX_Y = 65
 const MIN_X = -10
 const MIN_Y = -10
 
@@ -36,7 +34,7 @@ export default class BackGround {
 
   render(ctx) {
     ctx.fillStyle = '#fdfcf8' 
-    ctx.fillRect(0, 0, screenWidth, screenHeight) 
+    ctx.fillRect(0, 0, GameGlobal.screenWidth, GameGlobal.screenHeight) 
     
     for (var x=MIN_X;x<MAX_X;x++){
       for (var y=MIN_Y;y<MAX_Y;y++){

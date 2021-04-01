@@ -1,11 +1,29 @@
 import BackGround from './runtime/background'
 import DataBus from './databus'
 import BallBar from './runtime/ballbar'
+import StatusBar from './runtime/statusbar'
+import BallManager from './manager/ballManager'
+import FreeBall from './runtime/freeball'
 const ctx = canvas.getContext('2d')
 const databus = new DataBus()
 
+GameGlobal.hexagonWidth = 400
+GameGlobal.hexagonHight = 346.410
+GameGlobal.hexagonRate = 0.14
+GameGlobal.dx = -1
+GameGlobal.dy = -1
+GameGlobal.bg_stay = false
+GameGlobal.screenWidth = window.innerWidth
+GameGlobal.screenHeight = window.innerHeight
+GameGlobal.show_white = true
+
+
 GameGlobal.bg = new BackGround()
+GameGlobal.ballManager = new BallManager()
 GameGlobal.ballbar = new BallBar()
+GameGlobal.statusbar = new StatusBar()
+GameGlobal.freeball = new FreeBall()
+
 
 /**
  * 游戏主函数
@@ -46,6 +64,8 @@ export default class Main {
 
     GameGlobal.bg.render(ctx)
     GameGlobal.ballbar.render(ctx)
+    GameGlobal.statusbar.render(ctx)
+    GameGlobal.freeball.render(ctx)
   }
 
   loop() {
