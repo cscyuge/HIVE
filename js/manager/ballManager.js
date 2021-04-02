@@ -1,38 +1,46 @@
 /**
  * 棋子
  */
-export default class BallManager{
+export default class BallManager {
   constructor() {
-    this.ball_white_srcs = ['./images/bee-white.png',
-                            './images/ant-white.png',
-                            './images/zhi-white.png',
-                            './images/zha-white.png',
-                            './images/jia-white.png',
-                            './images/wen-white.png',
-                            './images/piao-white.png',
-                            './images/chao-white.png'
-                            ]
-    this.ball_black_srcs = ['./images/bee-black.png',
-                            './images/ant-black.png',
-                            './images/zhi-black.png',
-                            './images/zha-black.png',
-                            './images/jia-black.png',
-                            './images/wen-black.png',
-                            './images/piao-black.png',
-                            './images/chao-black.png'
-                            ]
-    this.images_white = new Array()
-    this.images_black = new Array()
-    for (var i = 0; i < 8; i++){
+    let ball_white_srcs = ['blank-white.png',
+      'bee-white.png',
+      'ant-white.png',
+      'zhi-white.png',
+      'zha-white.png',
+      'jia-white.png',
+      'wen-white.png',
+      'piao-white.png',
+      'chao-white.png'
+    ]
+    let ball_black_srcs = ['blank-black.png',
+      'bee-black.png',
+      'ant-black.png',
+      'zhi-black.png',
+      'zha-black.png',
+      'jia-black.png',
+      'wen-black.png',
+      'piao-black.png',
+      'chao-black.png'
+    ]
+    this.images = {}
+    for (var i = 1; i <= 8; i++) {
       let tmp_image_white = wx.createImage()
-      tmp_image_white.src = this.ball_white_srcs[i]
-      this.images_white.push(tmp_image_white)
+      tmp_image_white.src = GameGlobal.image_url+ ball_white_srcs[i]
       let tmp_image_black = wx.createImage()
-      tmp_image_black.src = this.ball_black_srcs[i]
-      this.images_black.push(tmp_image_black)
+      tmp_image_black.src = GameGlobal.image_url+ ball_black_srcs[i]
+      this.images[i] = tmp_image_white
+      this.images[-i] = tmp_image_black
+    }
+    let count = [0, 1, 3, 2, 3, 2, 1, 1, 1]
+    this.ball_count = {}
+    for (var i=1;i<=8;i++){
+      this.ball_count[-i] = count[i] 
+    }
+    for (var i=1;i<=8;i++){
+      this.ball_count[i] = count[i] 
     }
     
-    this.ball_count = [1,3,2,3,2,1,1,1]
   }
 
 }

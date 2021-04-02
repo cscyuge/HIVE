@@ -4,25 +4,42 @@ import BallBar from './runtime/ballbar'
 import StatusBar from './runtime/statusbar'
 import BallManager from './manager/ballManager'
 import FreeBall from './runtime/freeball'
+import Board from './runtime/board'
+
+
 const ctx = canvas.getContext('2d')
+
 const databus = new DataBus()
+// GameGlobal.image_url = 'cloud://cloud1-8gemgr89529481f1.636c-cloud1-8gemgr89529481f1-1305443614/images/'
+GameGlobal.image_url = 'images/'
+
+// Set actual size in memory (scaled to account for extra pixel density).
+var scale = window.devicePixelRatio; // Change to 1 on retina screens to see blurry canvas.
+console.log(scale)
+canvas.width = Math.floor( window.innerWidth * scale);
+canvas.height = Math.floor( window.innerHeight * scale);
+ctx.scale(scale, scale);
 
 GameGlobal.hexagonWidth = 400
-GameGlobal.hexagonHight = 346.410
+GameGlobal.hexagonHight = 346.4101615
 GameGlobal.hexagonRate = 0.14
-GameGlobal.dx = -1
-GameGlobal.dy = -1
+GameGlobal.dx = 0
+GameGlobal.dy = 0
 GameGlobal.bg_stay = false
 GameGlobal.screenWidth = window.innerWidth
 GameGlobal.screenHeight = window.innerHeight
 GameGlobal.show_white = true
-
+GameGlobal.from_board = false
+GameGlobal.from_bar = false
+GameGlobal.preX = 0
+GameGlobal.preY = 0
 
 GameGlobal.bg = new BackGround()
 GameGlobal.ballManager = new BallManager()
 GameGlobal.ballbar = new BallBar()
 GameGlobal.statusbar = new StatusBar()
 GameGlobal.freeball = new FreeBall()
+GameGlobal.board = new Board()
 
 
 /**
@@ -34,7 +51,7 @@ export default class Main {
     var touchmoveHandler = require('./handler/touchMoveHandler')
     this.touchmoveHandler = touchmoveHandler.bind(this)
     canvas.addEventListener('touchmove', this.touchmoveHandler)
-    
+
     var touchendHandler = require('./handler/touchEndHandler')
     this.touchendHandler = touchendHandler.bind(this)
     canvas.addEventListener('touchend', this.touchendHandler)
@@ -47,9 +64,9 @@ export default class Main {
 
   start() {
     databus.reset()
-      
+
     this.bindLoop = this.loop.bind(this)
-    
+
     window.cancelAnimationFrame(this.aniId)
 
     this.aniId = window.requestAnimationFrame(
@@ -58,11 +75,12 @@ export default class Main {
     )
   }
 
-  
+
   render() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
 
     GameGlobal.bg.render(ctx)
+    GameGlobal.board.render(ctx)
     GameGlobal.ballbar.render(ctx)
     GameGlobal.statusbar.render(ctx)
     GameGlobal.freeball.render(ctx)
@@ -79,37 +97,3 @@ export default class Main {
     )
   }
 }
-
-
-
-
- // wx.onTouchStart(function(e){
-    //   var touch = e.changedTouches[0]
-    //   var clientX = touch.clientX
-    //   var clientY = touch.clientY
-    //   var w = 3*hexagonWidth/4.0 * hexagonRate
-    //   var h = hexagonHight/2.0 * hexagonRate
-    //   var kx = parseInt(clientX/w)
-    //   var ky = parseInt(clientY/h)
-    //   var x = clientX - kx*w
-    //   var y = clientY - ky*h
-    //   var cornerX = w*kx
-    //   var cornerY = h*ky
-    //   if ((kx%2+ky%2)%2 == 0){
-    //     var tmpY = -1.7320508*(x-1)
-    //     if (tmpY>y){
-    //       cornerX -= w
-    //       cornerY -= h
-    //     }
-    //   }else{
-    //     var tmpY = 1.7320508*x
-    //     if (tmpY<y){
-    //       cornerX -= w
-    //     }else{
-    //       cornerY -= h
-    //     }
-    //   }      
-    //   cornerX += w/4.0+1.6
-    //   // console.log(cornerX,cornerY)
-    //   ctx.drawImage(images_white[0],cornerX,cornerY,hexagonWidth*hexagonRate,hexagonHight*hexagonRate)
-    // })
